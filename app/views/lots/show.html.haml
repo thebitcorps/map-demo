@@ -1,0 +1,33 @@
+%p#notice= notice
+
+%p
+  %b Number:
+  = @lot.number
+%p
+  %b Block:
+  = @lot.block
+%p
+  %b Stage:
+  = @lot.stage
+%p
+  %b User:
+  = @lot.user
+%p
+  %b Price:
+  = @lot.price
+%p
+  %b Square meters:
+  = @lot.square_meters
+%p
+  %b Front:
+  = @lot.front
+%p
+  %b Depth:
+  = @lot.depth
+%p
+  %b Status:
+  = @lot.status
+
+= link_to 'Edit', edit_lot_path(@lot)
+\|
+= link_to 'Back', lots_path

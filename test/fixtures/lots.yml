@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: MyString
+  block: MyString
+  stage: MyString
+  user_id: 
+  price: 9.99
+  square_meters: 9.99
+  front: 9.99
+  depth: 9.99
+  status: MyString
+
+two:
+  number: MyString
+  block: MyString
+  stage: MyString
+  user_id: 
+  price: 9.99
+  square_meters: 9.99
+  front: 9.99
+  depth: 9.99
+  status: MyString

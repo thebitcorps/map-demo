@@ -1,0 +1,37 @@
+%h1 Listing lots
+
+%table
+  %thead
+    %tr
+      %th Number
+      %th Block
+      %th Stage
+      %th User
+      %th Price
+      %th Square meters
+      %th Front
+      %th Depth
+      %th Status
+      %th
+      %th
+      %th
+
+  %tbody
+    - @lots.each do |lot|
+      %tr
+        %td= lot.number
+        %td= lot.block
+        %td= lot.stage
+        %td= lot.user
+        %td= lot.price
+        %td= lot.square_meters
+        %td= lot.front
+        %td= lot.depth
+        %td= lot.status
+        %td= link_to 'Show', lot
+        %td= link_to 'Edit', edit_lot_path(lot)
+        %td= link_to 'Destroy', lot, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Lot', new_lot_path
