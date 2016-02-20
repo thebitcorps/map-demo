@@ -71,9 +71,12 @@
 
 			function zoomToFeature(e)
 			{
-				map.fitBounds(e.target.getBounds());
+				//map.fitBounds(e.target.getBounds());
+			}
 
-				/// Aqui puede ser el codigo para desplegar el modal
+			function onClickLot(number)
+			{
+
 			}
 
 			function onEachFeature(feature, layer)
@@ -83,6 +86,10 @@
 					mouseout: resetHighlight,
 					click: zoomToFeature
 				});
+
+				var popupContent = '<div style = "text-align: center;"><p>Informacion basica del terreno</p></div><div style = "text-align: left;"><p>Bloque: <b>' + feature.properties.stage + '</b></p><p>Lote: <b>'+ feature.properties.number +'</b></p><p>Area: <b>' + feature.properties.square_meters + ' m<sup>2</sup></b></p><p>' + (feature.properties.status == "available" ? 'Dispoible' : 'Vendido') + '</p></div><div style = "text-align: center;"><button onCLick="onClickLot(' + feature.id + ')">Ver detalles</a></div>';
+
+				layer.bindPopup(popupContent);
 			}
 
 			var logoCoordX = -102.3297, logoCoordY = 21.90705;

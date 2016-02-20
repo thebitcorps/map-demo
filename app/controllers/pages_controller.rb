@@ -4,7 +4,7 @@ class PagesController < ApplicationController
 
    def lots
     respond_to do |format|
-      format.json { render json: Lot.all, except: [:user_id, :block, :price, :square_meters, :front, :depth, :created_at, :updated_at]}
+      format.json { render json: Lot.all, except: [:user_id, :block, :price, :front, :depth, :created_at, :updated_at]}
     end
   end
 end
