@@ -21,6 +21,34 @@
 				id: 'mapbox.streets'
 			}).addTo(map);
 
+			function style(feature) {
+				return {
+					weight: 1.5,
+					opacity: 1,
+					color: '#4dff4d',
+					dashArray: '2',
+					fillOpacity: 1.0,
+					fillColor: (feature.properties.status == 'available' ? "white" : '#ffffb3')
+				};
+			}
+
+			$.ajax(
+			{
+				type: "GET", //rest Type
+				dataType: 'json', //mispelled
+				url: "/pages/lots.json",
+				async: true,
+				contentType: "application/json; charset=utf-8",
+				success: function (msg)
+				{
+					for (index = 0; index < msg.length; ++index)
+					{
+						tearrainsData.features[parseInt(msg[index].id) - 1].properties = msg[index];
+					}
+					geojson = L.geoJson(tearrainsData, { style: style, onEachFeature: onEachFeature}).addTo(map);
+				}
+			});
+
 			function highlightFeature(e)
 			{
 				var layer = e.target;
@@ -44,6 +72,8 @@
 			function zoomToFeature(e)
 			{
 				map.fitBounds(e.target.getBounds());
+
+				/// Aqui puede ser el codigo para desplegar el modal
 			}
 
 			function onEachFeature(feature, layer)
@@ -63,5 +93,3 @@
 			L.multiPolygon(baseStreet, {weight: 1, color: '#333333', dashArray: '1', fillColor: '#333333', fillOpacity: 0.1}).addTo(map);
 
 			map.fitBounds([[logoCoordY, logoCoordX - offset], [logoCoordY - 0.002, logoCoordX + offset]]);
-
-			geojson = L.geoJson(tearrainsData, { style: {weight: 1.5 ,opacity: 1,color: '#4dff4d',dashArray: '2',fillOpacity: 1.0,fillColor: 'white'}, onEachFeature: onEachFeature}).addTo(map);
