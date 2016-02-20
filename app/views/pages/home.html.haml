@@ -1,2 +1,67 @@
-%h1 Pages#home
-%p Find me in app/views/pages/home.html.haml
+!!!
+%html
+	%head
+		%title Loretta
+		%meta{:charset => "utf-8"}/
+		%meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+		%link{:href => "http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css", :rel => "stylesheet"}/
+		:css
+			body { margin:0; padding:0; }
+						#map { position:absolute; top:0; bottom:0; width:100%; }
+	%body
+		#map
+		%script{:src => "http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"}
+
+		:javascript
+			var map = L.map('map').setView([21.906, -102.33], 18);
+
+			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+				maxZoom: 20,
+				minZoom: 1,
+				id: 'mapbox.streets'
+			}).addTo(map);
+
+			function highlightFeature(e)
+			{
+				var layer = e.target;
+
+				layer.setStyle({
+					weight: 4,
+					color: '#4dff4d',
+					dashArray: '',
+					fillColor: '#4dff4d'
+				});
+
+				if (!L.Browser.ie && !L.Browser.opera)
+					layer.bringToFront();
+			}
+
+			function resetHighlight(e)
+			{
+				geojson.resetStyle(e.target);
+			}
+
+			function zoomToFeature(e)
+			{
+				map.fitBounds(e.target.getBounds());
+			}
+
+			function onEachFeature(feature, layer)
+			{
+				layer.on({
+					mouseover: highlightFeature,
+					mouseout: resetHighlight,
+					click: zoomToFeature
+				});
+			}
+
+			var logoCoordX = -102.3297, logoCoordY = 21.90705;
+			var offset = 0.00037;
+
+			L.imageOverlay( "http://www.loretta.mx/images/logo-l.png", [[logoCoordY + offset, logoCoordX - offset], [logoCoordY - offset, logoCoordX + offset]]).addTo(map);
+
+			L.multiPolygon(baseStreet, {weight: 1, color: '#333333', dashArray: '1', fillColor: '#333333', fillOpacity: 0.1}).addTo(map);
+
+			map.fitBounds([[logoCoordY, logoCoordX - offset], [logoCoordY - 0.002, logoCoordX + offset]]);
+
+			geojson = L.geoJson(tearrainsData, { style: {weight: 1.5 ,opacity: 1,color: '#4dff4d',dashArray: '2',fillOpacity: 1.0,fillColor: 'white'}, onEachFeature: onEachFeature}).addTo(map);
