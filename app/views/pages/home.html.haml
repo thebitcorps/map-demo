@@ -7,12 +7,14 @@
 		%link{:href => "http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css", :rel => "stylesheet"}/
 		:css
 			body { margin:0; padding:0; }
-						#map { position:absolute; top:0; bottom:0; width:100%; }
-	%body
+			#map { position:absolute; top:0; bottom:0; width:100%; }
+			#modal-div { position: absolute; width: 30%; height: 40%; bottom: 5%; left: 5%; background-color: white;}
+	%body{onresize: "onClickLot(currentIndex)"}
 		#map
 		%script{:src => "http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"}
 
 		:javascript
+			// -------------------- Basic Map ------------------------------- /
 			var map = L.map('map').setView([21.906, -102.33], 18);
 
 			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
@@ -27,11 +29,12 @@
 					opacity: 1,
 					color: '#4dff4d',
 					dashArray: '2',
-					fillOpacity: 1.0,
-					fillColor: (feature.properties.status == 'available' ? "white" : '#ffffb3')
+					fillOpacity: 0.8,
+					fillColor: (feature.properties.status == 'available' ? "#b3ffb3" : '#ffffb3')
 				};
 			}
 
+			// --------------- Reques for terrains status ----------------------- /
 			$.ajax(
 			{
 				type: "GET", //rest Type
@@ -48,6 +51,10 @@
 					geojson = L.geoJson(tearrainsData, { style: style, onEachFeature: onEachFeature}).addTo(map);
 				}
 			});
+
+			// -------------------- Shapes Intraction ---------------------------- //
+
+			var currentIndex;
 
 			function highlightFeature(e)
 			{
@@ -72,11 +79,93 @@
 			function zoomToFeature(e)
 			{
 				//map.fitBounds(e.target.getBounds());
+
+				// Mejor si aqui el modal
+
+				currentIndex = tearrainsData.features.indexOf(e.target.feature);
+				onClickLot(currentIndex);
 			}
+
 
 			function onClickLot(number)
 			{
+				var lot = lots[number];
+				var side = sides[number];
+				var numbers = sidesNumbers[number];
 
+				var maxX = 0, maxY = 0;
+
+				lot.forEach(function(entry)
+				{
+					if(Math.abs(entry[0]) > maxX) maxX = Math.abs(entry[0]);
+					if(Math.abs(entry[1]) > maxY) maxY = Math.abs(entry[1]);
+				});
+
+				var canvas = document.getElementById("modal");
+				var div = document.getElementById("modal-div");
+				var ctx = canvas.getContext("2d");
+
+				var width = div.clientWidth;
+				var height = div.clientHeight;
+
+				var fixed;
+
+				if(width > height)
+				{
+					if(maxX > maxY)
+					{
+						if(maxY * width > height)
+							fixed = height / maxY * 0.4;
+						else
+							fixed = width * 0.4;
+					}
+					else
+					{
+						if(maxX * Height > width)
+							fixed = width / maxX * 0.4;
+						else
+							fixed = height * 0.4;
+					}
+				}
+				else
+				{
+					if(maxY > maxX)
+					{
+						if(maxX * height > width)
+							fixed = width / maxX * 0.4;
+						else
+							fixed = height * 0.4;
+					}
+					else
+					{
+						if(maxY * width > height)
+							fixed = height / maxY * 0.4;
+						else
+							fixed = width * 0.4;
+					}
+				}
+
+				canvas.width = width;
+				canvas.height = height;
+
+				ctx.fillStyle = "#b3ffb3";
+
+				ctx.beginPath();
+				lot.forEach(function(entry)
+				{
+					ctx.lineTo(entry[0] * fixed + width / 2, -entry[1] * fixed + height / 2);
+				});
+				ctx.closePath();
+				ctx.fill();
+
+				ctx.fillStyle = "#153015";
+				ctx.font = "bold 16px Arial";
+				ctx.textAlign = "center";
+				for (i = 0; i < numbers.length; i++)
+				{
+					ctx.fillText(numbers[i] + "m", side[i][0] * fixed + width / 2, -side[i][1] * fixed + height / 2);
+				}
+				ctx.fillText(tearrainsData.features[number].properties.square_meters + "m" + String.fromCharCode(178), width / 2, height / 2);
 			}
 
 			function onEachFeature(feature, layer)
@@ -87,10 +176,12 @@
 					click: zoomToFeature
 				});
 
-				var popupContent = '<div style = "text-align: center;"><p>Informacion basica del terreno</p></div><div style = "text-align: left;"><p>Bloque: <b>' + feature.properties.stage + '</b></p><p>Lote: <b>'+ feature.properties.number +'</b></p><p>Area: <b>' + feature.properties.square_meters + ' m<sup>2</sup></b></p><p>' + (feature.properties.status == "available" ? 'Dispoible' : 'Vendido') + '</p></div><div style = "text-align: center;"><button onCLick="onClickLot(' + feature.id + ')">Ver detalles</a></div>';
+				//var popupContent = '<div style = "text-align: center;"><p>Informacion basica del terreno</p></div><div style = "text-align: left;"><p>Bloque: <b>' + feature.properties.stage + '</b></p><p>Lote: <b>'+ feature.properties.number +'</b></p><p>Area: <b>' + feature.properties.square_meters + ' m<sup>2</sup></b></p><p>' + (feature.properties.status == "available" ? 'Dispoible' : 'Vendido') + '</p></div><div style = "text-align: center;"><button onCLick="onClickLot(' + tearrainsData.features.indexOf(feature) + ')">Ver detalles</a></div>';
 
-				layer.bindPopup(popupContent);
+				//layer.bindPopup(popupContent);
 			}
+
+			// -------------------- Initial stuff ------------------------------- //
 
 			var logoCoordX = -102.3297, logoCoordY = 21.90705;
 			var offset = 0.00037;
@@ -100,3 +191,6 @@
 			L.multiPolygon(baseStreet, {weight: 1, color: '#333333', dashArray: '1', fillColor: '#333333', fillOpacity: 0.1}).addTo(map);
 
 			map.fitBounds([[logoCoordY, logoCoordX - offset], [logoCoordY - 0.002, logoCoordX + offset]]);
+		#modal-div
+			%canvas{id: 'modal'}
+		}
