@@ -15,6 +15,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 gem 'simple_form'
+gem 'react-rails', '~> 1.6.0'
 # Use Unicorn as the app server
 # gem 'unicorn'
 

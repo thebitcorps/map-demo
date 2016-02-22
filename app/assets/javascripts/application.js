@@ -14,4 +14,9 @@
 //= require bootstrap-sprockets
 //= require jquery_ujs
 //= require leaflet
+//= require react
+//= require react_ujs
+//= require components
+//= require react-modal.min
 //= require_tree .
+

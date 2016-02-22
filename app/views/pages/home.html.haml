@@ -10,6 +10,7 @@
 			#map { position:absolute; top:0; bottom:0; width:100%; }
 			#modal-div { position: absolute; width: 30%; height: 40%; bottom: 5%; left: 5%; background-color: white;}
 	%body{onresize: "onClickLot(currentIndex)"}
+
 		#map
 		%script{:src => "http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"}
 
@@ -39,13 +40,15 @@
 			{
 				type: "GET", //rest Type
 				dataType: 'json', //mispelled
-				url: "/pages/lots.json",
+				url: "/lots.json",
 				async: true,
 				contentType: "application/json; charset=utf-8",
 				success: function (msg)
 				{
+
 					for (index = 0; index < msg.length; ++index)
 					{
+
 						tearrainsData.features[parseInt(msg[index].id) - 1].properties = msg[index];
 					}
 					geojson = L.geoJson(tearrainsData, { style: style, onEachFeature: onEachFeature}).addTo(map);
@@ -81,7 +84,7 @@
 				//map.fitBounds(e.target.getBounds());
 
 				// Mejor si aqui el modal
-
+				//ReactDOM.render(React.createElement(LotModal),document.getElementById("mod"));
 				currentIndex = tearrainsData.features.indexOf(e.target.feature);
 				onClickLot(currentIndex);
 			}
@@ -167,6 +170,7 @@
 				}
 				ctx.fillText(tearrainsData.features[number].properties.square_meters + "m" + String.fromCharCode(178), width / 2, height / 2);
 			}
+
 
 			function onEachFeature(feature, layer)
 			{

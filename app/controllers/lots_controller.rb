@@ -1,6 +1,6 @@
 class LotsController < ApplicationController
   before_action :set_lot, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!,except: :show
+  before_action :authenticate_user!,except: [:show,:index]
   # GET /lots
   # GET /lots.json
   def index
@@ -12,7 +12,7 @@ class LotsController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.json { render :json => @user }
+      format.json { render :show, location: @lot }
     end
   end
 
