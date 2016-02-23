@@ -1,49 +1,65 @@
-
 var LotModal = React.createClass({
-
-
-    getInitialState: function() {
-        return { modalIsOpen: false };
+    getDefaultProps: function(){
+        return {name: 'modal'}
     },
 
     openModal: function() {
+        $('#'+this.props.name).modal('show');
         this.setState({modalIsOpen: true});
     },
 
     closeModal: function() {
+        $('#'+this.props.name).modal('hide');
         this.setState({modalIsOpen: false});
+        ReactDOM.unmountComponentAtNode(document.getElementById('mod'));
+    },
+    componentDidMount: function(){
+        $('#'+this.props.name).modal('show');
     },
 
     render: function() {
         return (
             <div>
                 <button type="button" className="btn btn-default" onClick={this.openModal}>Open</button>
-                <Modal
-                    className="Modal__Bootstrap modal-dialog"
-                    isOpen={this.state.modalIsOpen}
+                <div
+                    id={this.props.name}
+                    tabIndex='-1'
+                    role='modal'
+                    style={{display: 'block'}}
+                    className='modal fade'
                     onRequestClose={this.closeModal}
                     closeTimeoutMS='0'>
+                    <div className='modal-dialog modal-lg'>
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" onClick={this.closeModal}>
+                                    <span aria-hidden="true">&times;</span>
+                                    <span className="sr-only">Close</span>
+                                </button>
+                                <h4 className="modal-title">Modal title</h4>
+                            </div>
+                            <div className="modal-body">
+                                <div className='row'>
+                                    <div className='col-sm-8' id='modal-div'>
+                                        <canvas id='canvas'></canvas>
+                                    </div>
+                                    <div className='col-sm-4'>
+                                        <ul>
+                                            <li>Numero</li>
+                                            <li>Cuadra</li>
+                                            <li>Estado</li>
+                                        </ul>
+                                    </div>
+                                </div>
 
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <button type="button" className="close" onClick={this.handleModalCloseRequest}>
-                                <span aria-hidden="true">&times;</span>
-                                <span className="sr-only">Close</span>
-                            </button>
-                            <h4 className="modal-title">Modal title</h4>
-                        </div>
-                        <div className="modal-body">
-                            <h4>Really long content...</h4>
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
 
-
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-default" onClick={this.closeModal}>Close</button>
-
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-default" onClick={this.closeModal}>Close</button>
+                            </div>
                         </div>
                     </div>
-                </Modal>
+                </div>
             </div>
         );
     }

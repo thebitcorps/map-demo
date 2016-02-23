@@ -8,7 +8,6 @@
 		:css
 			body { margin:0; padding:0; }
 			#map { position:absolute; top:0; bottom:0; width:100%; }
-			#modal-div { position: absolute; width: 30%; height: 40%; bottom: 5%; left: 5%; background-color: white;}
 	%body{onresize: "onClickLot(currentIndex)"}
 
 		#map
@@ -84,7 +83,7 @@
 				//map.fitBounds(e.target.getBounds());
 
 				// Mejor si aqui el modal
-				//ReactDOM.render(React.createElement(LotModal),document.getElementById("mod"));
+				ReactDOM.render(React.createElement(LotModal),document.getElementById("mod"));
 				currentIndex = tearrainsData.features.indexOf(e.target.feature);
 				onClickLot(currentIndex);
 			}
@@ -104,7 +103,7 @@
 					if(Math.abs(entry[1]) > maxY) maxY = Math.abs(entry[1]);
 				});
 
-				var canvas = document.getElementById("modal");
+				var canvas = document.getElementById("canvas");
 				var div = document.getElementById("modal-div");
 				var ctx = canvas.getContext("2d");
 
@@ -195,6 +194,5 @@
 			L.multiPolygon(baseStreet, {weight: 1, color: '#333333', dashArray: '1', fillColor: '#333333', fillOpacity: 0.1}).addTo(map);
 
 			map.fitBounds([[logoCoordY, logoCoordX - offset], [logoCoordY - 0.002, logoCoordX + offset]]);
-		#modal-div
-			%canvas{id: 'modal'}
-		}
+
+		#mod
