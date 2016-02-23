@@ -4,17 +4,20 @@ var LotModal = React.createClass({
     },
 
     openModal: function() {
-        $('#'+this.props.name).modal('show');
-        this.setState({modalIsOpen: true});
+        //$('#'+this.props.name).modal('show');
+        this.modal.modal('show');
     },
 
     closeModal: function() {
-        $('#'+this.props.name).modal('hide');
-        this.setState({modalIsOpen: false});
-        ReactDOM.unmountComponentAtNode(document.getElementById('mod'));
+        //$('#'+this.props.name).modal('hide');
+        this.modal.modal('hide');
     },
     componentDidMount: function(){
-        $('#'+this.props.name).modal('show');
+        this.modal = $('#'+this.props.name);
+        this.modal.modal();
+        this.modal.on('hidden.bs.modal',function(){
+            ReactDOM.unmountComponentAtNode(document.getElementById('mod'));
+        });
     },
 
     render: function() {
@@ -45,9 +48,9 @@ var LotModal = React.createClass({
                                     </div>
                                     <div className='col-sm-4'>
                                         <ul>
-                                            <li>Numero</li>
-                                            <li>Cuadra</li>
-                                            <li>Estado</li>
+                                            <li>Numero: </li>
+                                            <li>Cuadra: </li>
+                                            <li>Estado: </li>
                                         </ul>
                                     </div>
                                 </div>
