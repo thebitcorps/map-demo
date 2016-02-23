@@ -42,8 +42,8 @@ var LotModal = React.createClass({
                                 <h4 className="modal-title">Modal title</h4>
                             </div>
                             <div className="modal-body">
-                                <div className='row'>
-                                    <div className='col-sm-8' id='modal-div'>
+                                <div className='row' style={{height: '90%'}}>
+                                    <div className='col-sm-8' id='modal-div' style={{height: '90%'}}>
                                         <canvas id='canvas'></canvas>
                                     </div>
                                     <div className='col-sm-4'>

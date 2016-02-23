@@ -5,3 +5,15 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+.modal-dialog {
+  width: 95%;
+  height: 95%;
+  padding: 0;
+}
+
+.modal-content {
+  height: 98%;
+}
+.modal-body {
+  height: 80%;
+}
