@@ -81,10 +81,9 @@
 			function zoomToFeature(e)
 			{
 				//map.fitBounds(e.target.getBounds());
-
-				// Mejor si aqui el modal
-				ReactDOM.render(React.createElement(LotModal),document.getElementById("mod"));
+				//Mejor si aqui el modal
 				currentIndex = tearrainsData.features.indexOf(e.target.feature);
+				ReactDOM.render(React.createElement(LotModal,tearrainsData.features[currentIndex].properties),document.getElementById("mod"));
 				onClickLot(currentIndex);
 
 			}
