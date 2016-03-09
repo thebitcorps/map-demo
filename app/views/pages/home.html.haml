@@ -150,8 +150,9 @@
 				canvas.width = width;
 				canvas.height = height;
 
-				ctx.fillStyle = "#b3ffb3";
-
+				ctx.strokeStyle="#fff"; // not working :(
+				ctx.fillStyle = "rgb(242,240,166)";
+				ctx.lineWidth=1;
 				ctx.beginPath();
 				lot.forEach(function(entry)
 				{
@@ -160,8 +161,8 @@
 				ctx.closePath();
 				ctx.fill();
 
-				ctx.fillStyle = "#153015";
-				ctx.font = "bold 16px Arial";
+				ctx.fillStyle = "#3c763d";
+				ctx.font = "16px Lato";
 				ctx.textAlign = "center";
 				for (i = 0; i < numbers.length; i++)
 				{
@@ -179,7 +180,7 @@
 					click: zoomToFeature
 				});
 
-				//var popupContent = '<div style = "text-align: center;"><p>Informacion basica del terreno</p></div><div style = "text-align: left;"><p>Bloque: <b>' + feature.properties.stage + '</b></p><p>Lote: <b>'+ feature.properties.number +'</b></p><p>Area: <b>' + feature.properties.square_meters + ' m<sup>2</sup></b></p><p>' + (feature.properties.status == "available" ? 'Dispoible' : 'Vendido') + '</p></div><div style = "text-align: center;"><button onCLick="onClickLot(' + tearrainsData.features.indexOf(feature) + ')">Ver detalles</a></div>';
+				//var popupContent = '<div style = "text-align: center;"><p>Informacion basica del terreno</p></div><div style = "text-align: left;"><p>Bloque: <b>' + feature.properties.stage + '</b></p><p>Lote: <b>'+ feature.properties.number +'</b></p><p>Area: <b>' + feature.properties.square_meters + ' m<sup>2</sup></b></p><p>' + (feature.properties.status == "available" ? 'Disponible' : 'Vendido') + '</p></div><div style = "text-align: center;"><button onCLick="onClickLot(' + tearrainsData.features.indexOf(feature) + ')">Ver detalles</a></div>';
 
 				//layer.bindPopup(popupContent);
 			}

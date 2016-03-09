@@ -5,6 +5,12 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700);
+
+.modal{
+  font-family: 'Lato';
+}
+
 .modal-dialog {
   width: 95%;
   height: 95%;
@@ -13,7 +19,30 @@
 
 .modal-content {
   height: 98%;
+  background-color: rgb(178,196,48);
 }
 .modal-body {
   height: 80%;
+}
+
+.modal-title{
+  color: #fff;
+}
+
+.btn, .btn-default, .btn, .btn-default, .panel, .panel-body {
+  color: #fff;
+  background-color: rgb(178,196,48);
+  border-color: #fff;
+}
+
+.list-group-item{
+  color: #fff;
+  background-color: rgb(178,196,48);
+  border:0;
+}
+
+.btn:hover, .btn-default:hover {
+  color: #000;
+  background-color: rgb(178,196,48);
+  border-color: #000;
 }
